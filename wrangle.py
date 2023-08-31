@@ -25,7 +25,7 @@ def get_zillow_2017():
         df.to_csv(filename, index=False)
     return df
 
-def wrangle_zillow(df):
+def wrangle_zillow():
     ''' This function takes the zillow df csv, cleans it, and returns prep'd df'''
 
     file = 'zillow_2017.csv'
