@@ -32,10 +32,15 @@ def wrangle_zillow():
 
     df = pd.read_csv(file)# reads csv
 
+
     df = df.dropna() #drops all NaN values
 
     # renames columns for ease
     df.rename(columns={df.columns[0]: 'num_bedrooms', df.columns[1]: 'num_bathrooms', df.columns[2]: 'finished_sqft', df.columns[3]: 'tax_value'}, inplace=True)
+
+    make_ints = ['num_bedrooms', 'finished_sqft', 'tax_value', 'yearbuilt']
+    for col in make_ints:
+        df[col] = df[col].astype(int)
 
     return df
 
