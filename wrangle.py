@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 from env import get_db_url
+from sklearn.model_selection import train_test_split
 
 
 def get_zillow_2017():
@@ -36,11 +37,14 @@ def wrangle_zillow():
     df = df.dropna() #drops all NaN values
 
     # renames columns for ease
-    df.rename(columns={df.columns[0]: 'num_bedrooms', df.columns[1]: 'num_bathrooms', df.columns[2]: 'finished_sqft', df.columns[3]: 'tax_value'}, inplace=True)
+    df.rename(columns={df.columns[0]: 'num_bedrooms', df.columns[1]: 'num_bathrooms', df.columns[2]: 'finished_sqft', df.columns[3]: 'tax_value', df.columns[6]: 'county'}, inplace=True)
 
+    # turn into int
     make_ints = ['num_bedrooms', 'finished_sqft', 'tax_value', 'yearbuilt']
     for col in make_ints:
         df[col] = df[col].astype(int)
+    # change county values
+    df.county = df.county.map({6037: 'LA', 6059: 'Orange', 6111: 'Ventura'})
 
     return df
 
@@ -85,8 +89,52 @@ def check_columns(df):
         ],
     ).sort_values(by="Number of Unique Values")
 
+def split_data(df):
+    '''
+    split data into train, validate, test
 
+    argument: df
 
+    return: train, validate, test
+    '''
+
+    train_val, test = train_test_split(df,
+                                   train_size=0.8,
+                                   random_state=1108,
+                                   )
+    train, validate = train_test_split(train_val,
+                                   train_size=0.7,
+                                   random_state=1108,
+                                   )
+    
+    print(f'Train: {len(train)/len(df)}')
+    print(f'Validate: {len(validate)/len(df)}')
+    print(f'Test: {len(test)/len(df)}')
+    
+
+    return train, validate, test
+
+def next_split(train, validate, test):
+    '''This function creates your modeling variables with the train, validate, test 
+    sets and returns them from the zillow set
+    
+    argument: train, validate, test
+    
+    return: X_train, X_validate, X_test, y_train, y_validate, y_test'''
+
+    X_train = train
+
+    X_validate = validate
+
+    X_test = test
+
+    y_train = train['county']
+
+    y_validate = validate['county'] 
+
+    y_test = test['county']
+
+    return X_train, X_validate, X_test, y_train, y_validate, y_test
 
 
 
