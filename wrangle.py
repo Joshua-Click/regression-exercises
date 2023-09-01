@@ -37,10 +37,10 @@ def wrangle_zillow():
     df = df.dropna() #drops all NaN values
 
     # renames columns for ease
-    df.rename(columns={df.columns[0]: 'num_bedrooms', df.columns[1]: 'num_bathrooms', df.columns[2]: 'finished_sqft', df.columns[3]: 'tax_value', df.columns[6]: 'county'}, inplace=True)
+    df.rename(columns={df.columns[0]: 'bedrooms', df.columns[1]: 'bathrooms', df.columns[2]: 'finished_area', df.columns[3]: 'tax_value', df.columns[4]: 'year_built', df.columns[5]: 'tax_amount', df.columns[6]: 'county'}, inplace=True)
 
     # turn into int
-    make_ints = ['num_bedrooms', 'finished_sqft', 'tax_value', 'yearbuilt']
+    make_ints = ['bedrooms', 'finished_area', 'tax_value', 'year_built']
     for col in make_ints:
         df[col] = df[col].astype(int)
     # change county values
@@ -89,9 +89,9 @@ def check_columns(df):
         ],
     ).sort_values(by="Number of Unique Values")
 
-def split_data(df):
+def split_continuous(df):
     '''
-    split data into train, validate, test
+    split continuouse data into train, validate, test; No target variable
 
     argument: df
 

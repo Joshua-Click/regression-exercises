@@ -23,7 +23,7 @@ def visualize_scaler(scaler, df, columns_to_scale, bins=10):
 def scale_data(train, 
                validate, 
                test, 
-               columns_to_scale=['num_bedrooms', 'num_bathrooms', 'taxamount', 'finished_sqft'],
+               columns_to_scale=['bedrooms', 'bathrooms', 'tax_amount', 'finished_area'],
                return_scaler=False
                ):
     '''
