@@ -37,10 +37,10 @@ def wrangle_zillow():
     df = df.dropna() #drops all NaN values
 
     # renames columns for ease
-    df.rename(columns={df.columns[0]: 'bedrooms', df.columns[1]: 'bathrooms', df.columns[2]: 'finished_area', df.columns[3]: 'tax_value', df.columns[4]: 'year_built', df.columns[5]: 'tax_amount', df.columns[6]: 'county'}, inplace=True)
+    df.rename(columns={df.columns[0]: 'bedrooms', df.columns[1]: 'bathrooms', df.columns[2]: 'finished_area', df.columns[3]: 'home_value', df.columns[4]: 'year_built', df.columns[5]: 'tax_amount', df.columns[6]: 'county'}, inplace=True)
 
     # turn into int
-    make_ints = ['bedrooms', 'finished_area', 'tax_value', 'year_built']
+    make_ints = ['bedrooms', 'finished_area', 'home_value', 'year_built']
     for col in make_ints:
         df[col] = df[col].astype(int)
     # change county values
@@ -73,6 +73,7 @@ def check_columns(df):
                 df[column].nunique(),
                 df[column].unique(),
                 df[column].isna().sum(),
+                df[column].isna().mean(),
                 df[column].dtype
             ]
         )
@@ -85,6 +86,7 @@ def check_columns(df):
             "Number of Unique Values",
             "Unique Values",
             "Number of Null Values",
+            "Proportion of Null Values",
             "dtype"
         ],
     ).sort_values(by="Number of Unique Values")
