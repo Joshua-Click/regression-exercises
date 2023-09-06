@@ -15,7 +15,7 @@ import wrangle as w
 import prepare as p
 import matplotlib as mpl
 mpl.rcParams["axes.formatter.useoffset"] = False
-mpl.rcParams["axes.formatter.limits"] = (-1_000_000, 1_000_000)
+
 
 def plot_categorical_and_continuous_vars(df, x, y, order):
     plt.figure(figsize=(16,9))
